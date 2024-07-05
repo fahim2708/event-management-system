@@ -5,12 +5,21 @@
 
         <h1 class="text-center font-bold mb-4 text-2xl text-blue-950">Event Management</h1>
 
-        <form class="text-right mb-4">
-            <input type="search" class="w-full md:w-48 px-4 py-2 border rounded-md" placeholder="Search Event..."
-                name="search" value="{{ request('search') }}">
-        </form>
+        <div class="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-4">
+            <form action="{{route('event.create')}}" method="GET" class="w-full md:w-auto mb-4">
+                <button class="bg-blue-500 text-white hover:bg-blue-600 w-full md:w-48 px-4 py-2 border rounded-md">
+                    Create Event
+                </button>
+            </form>
+            <form class="w-full md:w-auto mb-4">
+                <input type="search" class="w-full md:w-48 px-4 py-2 border rounded-md" placeholder="Search Event..."
+                       name="search" value="{{ request('search') }}">
+            </form>
+        </div>
+        
+        
 
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto mt-2">
             <table class="table-auto w-full border border-gray-300 text-center">
                 <thead class="bg-gray-700 text-white text-base">
                     <tr>
@@ -34,14 +43,16 @@
                                 <td class="border px-2 md:px-4 py-2 border-gray-300">{{ $event->location }}</td>
 
                                 <td class="border px-2 md:px-4 py-2 border-gray-300">
-                                    <div class="mt-4 flex">  
+                                    <div class="mt-4 flex">
                                         <form action="{{ route('event.edit', ['id' => $event->id]) }}" method="GET">
-                                            <button type="submit" title="Edit Event" class="px-2 py-2 hover:bg-green-100 rounded">
+                                            <button type="submit" title="Edit Event"
+                                                class="px-2 py-2 hover:bg-green-100 rounded">
                                                 <i class="fa-solid fa-pen-to-square" style="color: #089168;"></i>
                                             </button>
                                         </form>
                                         <form action="{{ route('event.show', ['id' => $event->id]) }}" method="GET">
-                                            <button type="submit" title="Event Details" class="px-2 py-2 hover:bg-blue-100 rounded">
+                                            <button type="submit" title="Event Details"
+                                                class="px-2 py-2 hover:bg-blue-100 rounded">
                                                 <i class="fa-solid fa-circle-info" style="color: #0a67ae;"></i>
                                             </button>
                                         </form>

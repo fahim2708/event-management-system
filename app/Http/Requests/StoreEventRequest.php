@@ -32,9 +32,13 @@ class StoreEventRequest extends FormRequest
 
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'errors'      => $validator->errors()->all()
-        ]));
+        if ($this->expectsJson()) {
+            throw new HttpResponseException(response()->json([
+                'success'   => false,
+                'errors'      => $validator->errors()->all()
+            ], 422));
+        }
+
+        parent::failedValidation($validator);
     }
 }

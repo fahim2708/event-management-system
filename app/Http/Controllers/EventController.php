@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Interfaces\EventRepositoryInterface;
 use App\Models\Event;
@@ -28,6 +29,31 @@ class EventController extends Controller
         } catch (\Exception $e) {
             Log::error('Error fetching events: ' . $e->getMessage());
             return redirect()->route('home')->with('error', 'Unable to fetch data.');
+        }
+    }
+
+    public function create()
+    {
+        return view('events.create');
+    }
+    public function store(StoreEventRequest $request)
+    {
+        $data = [
+            'title' => $request->title,
+            'description' => $request->description,
+            'date' => $request->date,
+            'location' => $request->location
+        ];
+        DB::beginTransaction();
+        try {
+            $event = $this->eventRepositoryInterface->create($data);
+
+            DB::commit();
+
+            return redirect('/events')->with('success', 'Event added Successfully');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('errors');
         }
     }
 
