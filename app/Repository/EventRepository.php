@@ -14,15 +14,15 @@ class EventRepository implements EventRepositoryInterface
        return Event::findOrFail($id);
     }
 
-    public function store(array $data){
+    public function create(array $data){
        return Event::create($data);
     }
 
     public function update(array $data,$id){
-       return Event::whereId($id)->update($data);
+       return Event::findOrFail($id)->update($data);
     }
     
     public function delete($id){
-        Event::destroy($id);
+        Event::findOrFail($id)->delete();
     }
 }

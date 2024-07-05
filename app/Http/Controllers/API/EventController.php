@@ -40,7 +40,7 @@ class EventController extends Controller
         ];
         DB::beginTransaction();
         try{
-             $event = $this->eventRepositoryInterface->store($data);
+             $event = $this->eventRepositoryInterface->create($data);
 
              DB::commit();
              return ApiResponse::sendResponse(new EventResource($event),'Event Created Successfully',201);
