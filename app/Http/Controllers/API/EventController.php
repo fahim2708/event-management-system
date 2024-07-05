@@ -53,9 +53,9 @@ class EventController extends Controller
     //Retrieve details of a specific event
     public function show($id)
     {
-        $product = $this->eventRepositoryInterface->getById($id);
+        $event = $this->eventRepositoryInterface->getById($id);
 
-        return ApiResponse::sendResponse(new EventResource($product),'',200);
+        return ApiResponse::sendResponse(new EventResource($event),'',200);
     }
 
 

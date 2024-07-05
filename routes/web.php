@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', HomeController::class)->name('home');
     Route::post('/logout', LogoutController::class)->name('logout');
 
+
+    //Manage Events
+    Route::get('/events', [EventController::class, 'index'])->name('event');
+    Route::delete('/delete-event/{id}', [EventController::class, 'destroy'])->name('event.delete');
+    Route::get('edit-event/{id}',  [EventController::class, 'edit'])->name('event.edit');
+    Route::put('/event/{id}',  [EventController::class, 'update']);
+    Route::get('/event/{id}',  [EventController::class, 'show'])->name('event.show');;
 });

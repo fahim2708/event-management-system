@@ -11,7 +11,7 @@ class RegisterRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      */
-    
+
     public function authorize(): bool
     {
         return true;
@@ -33,13 +33,13 @@ class RegisterRequest extends FormRequest
     public function failedValidation(Validator $validator)
 
     {
-        throw new HttpResponseException(response()->json([
+        if ($this->expectsJson()) {
+            throw new HttpResponseException(response()->json([
+                'success'   => false,
+                'errors'      => $validator->errors()->all()
+            ], 422));
+        }
 
-            'success'   => false,
-            'errors'      => $validator->errors()->all()
-
-        ]));
-
+        parent::failedValidation($validator);
     }
-
 }
