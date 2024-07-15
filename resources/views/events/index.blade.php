@@ -20,7 +20,7 @@
         
 
         <div class="overflow-x-auto mt-2">
-            <table class="table-auto w-full border border-gray-300 text-center">
+            <table class="table-auto w-full border border-gray-300 text-left">
                 <thead class="bg-gray-700 text-white text-base">
                     <tr>
                         <th class="px-2 md:px-4 py-2 border border-gray-300">Event ID</th>
