@@ -10,10 +10,8 @@ use App\Jobs\SendEventCreatedEmail;
 use App\Jobs\SendEventDeletedEmail;
 use App\Jobs\SendEventUpdateEmail;
 use App\Models\Event;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
@@ -24,16 +22,16 @@ class EventController extends Controller
     {
         $this->eventRepositoryInterface = $eventRepositoryInterface;
     }
+
     public function index()
     {
 
         try {
-            $data = $this->eventRepositoryInterface->index();
-            $events = Event::whereIn('id', $data->pluck('id'))->paginate(5);
+            $events = $this->eventRepositoryInterface->index();
             return view('events.index', compact('events'));
         } catch (\Exception $e) {
             Log::error('Error fetching events: ' . $e->getMessage());
-            return redirect()->route('home')->with('error', 'Unable to fetch data.');
+            return redirect()->route('home')->with('errors', 'Unable to fetch data.');
         }
     }
 
@@ -41,6 +39,7 @@ class EventController extends Controller
     {
         return view('events.create');
     }
+
     public function store(StoreEventRequest $request)
     {
         $data = [
@@ -86,7 +85,6 @@ class EventController extends Controller
             return redirect('/events')->with('error', 'Something went wrong');
         }
     }
-
 
     public function edit($id)
     {

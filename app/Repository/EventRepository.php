@@ -7,7 +7,7 @@ use App\Interfaces\EventRepositoryInterface;
 class EventRepository implements EventRepositoryInterface
 {
     public function index(){
-        return Event::all();
+        return Event::paginate(10);
     }
 
     public function getById($id){

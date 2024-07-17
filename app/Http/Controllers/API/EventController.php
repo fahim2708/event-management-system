@@ -32,9 +32,8 @@ class EventController extends Controller
     //Retrieve a list of all events
     public function index()
     {
-        $data = $this->eventRepositoryInterface->index();
-
-        return ApiResponse::sendResponse(EventResource::collection($data), '', 200);
+        $events = $this->eventRepositoryInterface->index();
+        return response()->json($events);
     }
 
     //Create a new event

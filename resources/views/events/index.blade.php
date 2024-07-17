@@ -1,23 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mx-auto p-4">
+    <div class="container mx-auto p-2">
 
-        <h1 class="text-center font-bold mb-4 text-2xl text-blue-950">Event Management</h1>
+        <h1 class="text-center font-bold md:mb-2 text-xl text-blue-950">Event Management</h1>
 
         <div class="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-4">
-            <form action="{{route('event.create')}}" method="GET" class="w-full md:w-auto mb-4">
-                <button class="bg-blue-500 text-white hover:bg-blue-600 w-full md:w-48 px-4 py-2 border rounded-md">
-                    Create Event
+            <form action="{{ route('event.create') }}" method="GET" class="w-full md:w-auto mb-4">
+                <button class="bg-blue-500 text-white hover:bg-blue-600 w-full md:w-12 px-4 py-2 border rounded-md" title="Create Event">
+                    <i class="fa-solid fa-plus"></i>
                 </button>
             </form>
             <form class="w-full md:w-auto mb-4">
-                <input type="search" class="w-full md:w-48 px-4 py-2 border rounded-md" placeholder="Search Event..."
-                       name="search" value="{{ request('search') }}">
+                <input type="search" class="w-full md:w-44 px-4 py-2 border rounded-md" placeholder="Search Event..."
+                    name="search" value="{{ request('search') }}">
             </form>
         </div>
-        
-        
+
+
 
         <div class="overflow-x-auto mt-2">
             <table class="table-auto w-full border border-gray-300 text-left">
@@ -32,7 +32,7 @@
                     </tr>
                 </thead>
 
-                <tbody class="text-gray-700 bg-white text-sm">
+                <tbody class="text-gray-700 bg-white text-xs">
                     @if (count($events) > 0)
                         @foreach ($events as $event)
                             <tr>
@@ -56,12 +56,14 @@
                                                 <i class="fa-solid fa-circle-info" style="color: #0a67ae;"></i>
                                             </button>
                                         </form>
-                                        <form action="{{ route('event.delete', ['id' => $event->id]) }}" method="POST">
+                                        <form id="delete-event-{{ $event->id }}"
+                                            action="{{ route('event.delete', ['id' => $event->id]) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <input type="hidden" name="event_id" id="event_id"
                                                 value="{{ $event->id }}">
-                                            <button title="Delete Event" class="px-2 py-2 hover:bg-red-100 rounded mr-4">
+                                            <button title="Delete Event" class="px-2 py-2 hover:bg-red-100 rounded mr-4"
+                                                onclick="confirmDeletion('{{ $event->id }}')">
                                                 <i class="fa-solid fa-trash" style="color: #e60f0f;"></i>
                                             </button>
                                         </form>
@@ -82,13 +84,20 @@
     </div>
 
     @if (session('success'))
-        <div id="success-message" class="fixed bottom-0 right-0 mb-4 mr-4 bg-green-600 text-white p-1 rounded">
+        <div id="success-message" class="fixed bottom-0 right-0 mb-4 mr-4 bg-green-400 text-slate-800 p-1 rounded">
             <span class="text-sm">{{ session('success') }}</span>
         </div>
-        <script>
-            setTimeout(() => {
-                document.getElementById('success-message').style.display = 'none';
-            }, 3000);
-        </script>
     @endif
+
+    <script>
+        function confirmDeletion(eventId) {
+            event.preventDefault();
+            if (confirm('Are you sure you want to delete this event?')) {
+                document.getElementById('delete-event-' + eventId).submit();
+            }
+        }
+        setTimeout(() => {
+            document.getElementById('success-message').style.display = 'none';
+        }, 3000);
+    </script>
 @endsection
