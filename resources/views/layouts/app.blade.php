@@ -19,7 +19,7 @@
     <body class="bg-gray-200 font-mono">
         <nav class="bg-white flex justify-between font-semibold text-green-950">
             <ul class="flex items-center">
-                <li class="p-3 md:p-6"><a href="{{ route('home') }}">Event Calendar Test</a></li>
+                <li class="p-3 md:p-6"><a href="{{ route('home') }}">Event Calendar</a></li>
                 @auth
                 <li class="p-3 md:p-6"><a href="{{ route('event') }}">Events</a></li>
                 @endauth
